@@ -7,24 +7,33 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"
 )
 
-func ExampleSign() {
-	keys := s3.Keys{
+func Example() {
+	client := new(s3.Client)
+	s3.DefaultKeys = &s3.Keys{
 		AccessKey: os.Getenv("S3_ACCESS_KEY"),
 		SecretKey: os.Getenv("S3_SECRET_KEY"),
 	}
 	data := strings.NewReader("hello, world")
-	r, _ := http.NewRequest("PUT", "https://example.s3.amazonaws.com/foo", data)
-	r.ContentLength = int64(data.Len())
-	r.Header.Set("Date", time.Now().UTC().Format(http.TimeFormat))
-	r.Header.Set("X-Amz-Acl", "public-read")
-	s3.Sign(r, keys)
-	resp, err := http.DefaultClient.Do(r)
+	resp, err := client.Put("https://example.s3.amazonaws.com/foo", data)
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(resp.StatusCode)
+}
 
+func ExampleClient_Do() {
+	client := new(s3.Client)
+	data := strings.NewReader("hello, world")
+	req, err := http.NewRequest("PUT", "https://example.s3.amazonaws.com/foo", data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("X-Amz-Acl", "public-read")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println(resp.StatusCode)
 }

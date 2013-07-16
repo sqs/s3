@@ -1,4 +1,5 @@
-// Package s3 signs HTTP requests for Amazon S3 and compatible services.
+// Package s3 signs and sends HTTP requests for Amazon S3
+// and compatible services.
 package s3
 
 // See
@@ -50,6 +51,9 @@ type Keys struct {
 	SecurityToken string
 	// See http://docs.aws.amazon.com/AmazonS3/latest/dev/MakingRequests.html#TypesofSecurityCredentials
 }
+
+// DefaultKeys is the default set of Keys used by Signer.
+var DefaultKeys *Keys
 
 // IdentityBucket returns subdomain.
 // It is designed to be used with S3-compatible services that
