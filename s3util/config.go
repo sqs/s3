@@ -11,8 +11,9 @@ package s3util
 // TODO(kr): parse error responses; return structured data
 
 import (
-	"github.com/kr/s3"
 	"net/http"
+
+	"github.com/sqs/s3"
 )
 
 var DefaultConfig = &Config{

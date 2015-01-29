@@ -2,9 +2,10 @@ package s3util_test
 
 import (
 	"fmt"
-	"github.com/kr/s3/s3util"
 	"io"
 	"os"
+
+	"github.com/sqs/s3/s3util"
 )
 
 func ExampleCreate() {

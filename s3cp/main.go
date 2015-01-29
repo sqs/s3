@@ -22,10 +22,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/kr/s3/s3util"
 	"io"
 	"os"
 	"strings"
+
+	"github.com/sqs/s3/s3util"
 )
 
 func main() {

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kr/s3"
+	"github.com/sqs/s3"
 )
 
 func ExampleClient() {

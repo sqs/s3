@@ -3,7 +3,6 @@ package s3util
 import (
 	"bytes"
 	"encoding/xml"
-	"github.com/kr/s3"
 	"fmt"
 	"io"
 	"net/http"
@@ -12,6 +11,8 @@ import (
 	"sync"
 	"syscall"
 	"time"
+
+	"github.com/sqs/s3"
 )
 
 // defined by amazon

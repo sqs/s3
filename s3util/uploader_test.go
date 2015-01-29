@@ -136,7 +136,7 @@ func TestEmptyEtag(t *testing.T) {
 		Transport: RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
 			resp := &http.Response{
 				StatusCode: 200,
-				Body: body,
+				Body:       body,
 				Header: http.Header{
 					"Etag": {""},
 				},
