@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -169,11 +170,16 @@ func (f *File) sendRequest(count int) (io.ReadCloser, error) {
 }
 
 func (f *File) parseResponse(reader io.Reader) ([]os.FileInfo, error) {
+	// Reading it all in now makes the XML decoding way faster.
+	bb, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return nil, err
+	}
+	reader = bytes.NewReader(bb)
+
 	decoder := xml.NewDecoder(reader)
 	result := listObjectsResult{}
-	var err error
-	err = decoder.Decode(&result)
-	if err != nil {
+	if err := decoder.Decode(&result); err != nil {
 		return nil, err
 	}
 
