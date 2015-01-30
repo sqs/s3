@@ -214,6 +214,29 @@ func (u *uploader) Close() error {
 		return u.err
 	}
 
+	if u.part == 0 {
+		// Can't upload an empty file with multipart uploads.
+		u.abort()
+		if u.err != nil {
+			return u.err
+		}
+		req, err := http.NewRequest("PUT", u.url, bytes.NewReader(nil))
+		if err != nil {
+			return err
+		}
+		req.Header.Set("Date", time.Now().UTC().Format(http.TimeFormat))
+		u.s3.Sign(req, u.keys)
+		resp, err := u.client.Do(req)
+		if err != nil {
+			return err
+		}
+		if resp.StatusCode != 200 {
+			return newRespError(resp)
+		}
+		resp.Body.Close()
+		return nil
+	}
+
 	body, err := xml.Marshal(u.xml)
 	if err != nil {
 		return err
